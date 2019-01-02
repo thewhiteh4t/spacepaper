@@ -1,0 +1,34 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100%;
+  background-color: #212121;
+  font-family: 'Nunito', sans-serif;
+}
+
+.grid {
+  margin: 0 auto;
+}
+
+.grid-item {
+  width: 250px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-inner {
+    background:transparent;
+}
+
+.card-block {
+  background-color: rgba(255, 255, 255, 0) !important;
+  border: 0;
+}
