@@ -15,37 +15,21 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m' # white
 
-Month = 0
-Year = 0
 key = ''
+sv = ''
 version = '1.0.0'
 
 os.system('clear')
 # arguments
 parser = argparse.ArgumentParser(
 description='SpacePaper Provides High Quality Images from NASA APOD [ June 1995 Onwards ]')
-parser.add_argument('-m', '--month', type=int, required=False, default=7)
-parser.add_argument('-y', '--year', type=int, required=False, default=1995)
+parser.add_argument('-m', '--month', type=int, required=False, default = 7)
+parser.add_argument('-y', '--year', type=int, required=False, default = 1996)
 parser.add_argument('-r', '--random', required=False, action='store_true')
 args = parser.parse_args()
 Month = args.month
 Year = args.year
 Random = args.random
-
-if Month and not Year:
-	print (R + '[!]' + C + ' Error : ' + W + 'Both Month and Year are Required...Try Again.')
-	exit()
-elif Year and not Month:
-	print (R + '[!]' + C + ' Error : ' + W + 'Both Month and Year are Required...Try Again.')
-	exit()
-elif Month < 1 or Month > 12:
-	print (R + '[!]' + C + ' Error : ' + W + 'Expected Value of Month : 1-12')
-	exit()
-elif Year <= 1995 and Month <= 6:
-	print (R + '[!]' + C + ' Error : ' + W + 'Enter a Combination Ahead of June 1995.')
-	exit()
-
-#except TypeError: pass
 
 def banner():
 	banner = r'''
@@ -85,7 +69,7 @@ def authkey():
 	global key
 	apikey = os.path.isfile('key.txt')
 	if apikey == False:
-		key = input(G + '[+]' + C + ' Enter API Key : ' + W)
+		key = input('\n' + G + '[+]' + C + ' Enter API Key : ' + W)
 		with open ('key.txt', 'w') as wkey:
 			wkey.write(key)
 		with open ('key.txt', 'r') as rkey:
@@ -99,13 +83,17 @@ def authkey():
 			key = rdkey
 
 def core():
-	global Month, Year, Random
+	global Month, Year, Random, sv
+	print (G + '[+]' + C + ' Starting PHP Server...' + W)
+	print (G + '[+]' + C + ' URL : ' + W + 'http://127.0.0.1:8000/website')
+	with open ('php.log', 'w') as log:
+		sv = subp.Popen(['php', '-S', '127.0.0.1:8000/website'], stdout = log, stderr = log)
 	if Random is True:
 		rnd()
-	elif Month and Year:
-		mny()
-	else:
+	elif not len(sys.argv) > 1: #check if no arg is passed
 		default()
+	else:
+		mny()
 
 def rnd():
 	global Month, Year
@@ -150,9 +138,7 @@ def gen():
 			d = str(Year) + '-' + str(Month) + '-' + str(i)
 			call = 'https://api.nasa.gov/planetary/apod?date={}&hd=True&api_key={}'.format(d, key)
 			r = requests.get(call)
-			try:
-				dump = r.json()
-			except: pass
+			dump = r.json()
 
 			try:
 				url = dump['hdurl']
@@ -172,9 +158,7 @@ def gen():
 			if i == total - 1 :
 				img.write(''' ') ''')
 
-	print (G + '[+]' + C + ' SpacePaper is Ready...!' + W)
-	print (G + '[+]' + C + ' Launching SpacePaper...' + W)
-	os.system('xdg-open website/index.html')
+	print (G + '[+]' + C + ' SpacePaper is Ready...Reload Page...' + W)
 
 try:
 	banner()
@@ -183,3 +167,4 @@ try:
 	core()
 except KeyboardInterrupt:
 	print ('\n' + R + '[-]' + C + ' Keyboard Interrupt.' + W)
+	sv.kill()
