@@ -125,7 +125,7 @@ def mny():
 def gen():
 	global Year, Month, key
 	total = calendar.monthrange(Year, Month)[1]
-	print (G + '[+]' + C + 'Month/Year : ' + W + str(Month) + '/' + str(Year))
+	print (G + '[+]' + C + ' Month/Year : ' + W + str(Month) + '/' + str(Year))
 	with open ('website/js/spacepaper.js', 'w') as img:
 		img.write(''' document.write(' ''')
 		for i in range(1,total):
