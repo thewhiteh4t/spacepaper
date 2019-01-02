@@ -19,6 +19,7 @@ key = ''
 sv = ''
 version = '1.0.0'
 
+
 os.system('clear')
 # arguments
 parser = argparse.ArgumentParser(
@@ -88,6 +89,7 @@ def core():
 	print (G + '[+]' + C + ' URL : ' + W + 'http://127.0.0.1:8000/website')
 	with open ('php.log', 'w') as log:
 		sv = subp.Popen(['php', '-S', '127.0.0.1:8000/website'], stdout = log, stderr = log)
+
 	if Random is True:
 		rnd()
 	elif not len(sys.argv) > 1: #check if no arg is passed
@@ -125,7 +127,7 @@ def mny():
 		gen()
 
 def gen():
-	global Year, Month, key
+	global Year, Month, key, pool, thread
 	total = calendar.monthrange(Year, Month)[1]
 	print (G + '[+]' + C + ' Month/Year : ' + W + str(Month) + '/' + str(Year))
 	with open ('website/js/spacepaper.js', 'w') as img:
@@ -137,23 +139,24 @@ def gen():
 			print ('[{} %]'.format(p), end='\r') # loading...
 			d = str(Year) + '-' + str(Month) + '-' + str(i)
 			call = 'https://api.nasa.gov/planetary/apod?date={}&hd=True&api_key={}'.format(d, key)
-			r = requests.get(call)
-			dump = r.json()
+			r = requests.get(call, headers={"content-type":"text"})
+			if r.status_code == 200:
+				dump = r.json()
 
-			try:
-				url = dump['hdurl']
-				img.write('<div class="grid-item">')
-				img.write('<img src="{}"></div>'.format(url))
-			except KeyError:
 				try:
-					url = dump['url']
-				except KeyError:
-					print (G + '[!]' + C + ' Warning : ' + W + dump['msg'])
-					img.write(''' ') ''')
-					break
-				if 'youtube' in url:
+					url = dump['hdurl']
 					img.write('<div class="grid-item">')
-					img.write('<iframe src="{}" width="250" frameborder="0" allow="gyroscope; picture-in-picture" allowfullscreen></iframe></div>'.format(url))
+					img.write('<img src="{}"></div>'.format(url))
+				except KeyError:
+					try:
+						url = dump['url']
+					except KeyError:
+						print (G + '[!]' + C + ' Warning : ' + W + dump['msg'])
+						img.write(''' ') ''')
+						break
+						if 'youtube' in url:
+							img.write('<div class="grid-item">')
+							img.write('<iframe src="{}" width="250" frameborder="0" allow="gyroscope; picture-in-picture" allowfullscreen></iframe></div>'.format(url))
 
 			if i == total - 1 :
 				img.write(''' ') ''')
