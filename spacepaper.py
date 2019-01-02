@@ -10,9 +10,6 @@ import datetime
 import calendar
 import subprocess as subp
 
-if sys.version_info[0] >= 3:
-	raw_input = input
-
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -20,7 +17,7 @@ W = '\033[0m' # white
 
 Month = 0
 Year = 0
-key = 'DEMO_KEY'
+key = ''
 version = '1.0.0'
 
 os.system('clear')
@@ -57,7 +54,7 @@ def banner():
   \__ \/ __ \/ __ `/ ___/ _ \/ /_/ / __ `/ __ \/ _ \/ ___/
  ___/ / /_/ / /_/ / /__/  __/ ____/ /_/ / /_/ /  __/ /
 /____/ .___/\__,_/\___/\___/_/    \__,_/ .___/\___/_/
-	/_/                               /_/'''
+    /_/                               /_/'''
 	print (G + banner + W + '\n')
 	print (G + '[>]' + C + ' Created By : ' + W + 'thewhiteh4t')
 	print (G + '[>]' + C + ' Version    : ' + W + version + '\n')
@@ -83,6 +80,23 @@ def updater():
 			print ('\n' + R + '[-]' + C + ' Invalid Character...Skipping...'+ W)
 	else:
 		print (G + ' Up-to-date' + W)
+
+def authkey():
+	global key
+	apikey = os.path.isfile('key.txt')
+	if apikey == False:
+		key = input(G + '[+]' + C + ' Enter API Key : ' + W)
+		with open ('key.txt', 'w') as wkey:
+			wkey.write(key)
+		with open ('key.txt', 'r') as rkey:
+			rdkey = rkey.read()
+			rdkey = rdkey.replace('\n', '')
+			key = rdkey
+	else:
+		with open ('key.txt', 'r') as rkey:
+			rdkey = rkey.read()
+			rdkey = rdkey.replace('\n', '')
+			key = rdkey
 
 def core():
 	global Month, Year, Random
@@ -165,6 +179,7 @@ def gen():
 try:
 	banner()
 	updater()
+	authkey()
 	core()
 except KeyboardInterrupt:
 	print ('\n' + R + '[-]' + C + ' Keyboard Interrupt.' + W)
