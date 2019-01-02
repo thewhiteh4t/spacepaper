@@ -20,7 +20,7 @@ W = '\033[0m' # white
 
 Month = 0
 Year = 0
-key = 'ybn0axGR1haYajavRqTP9TNP7ni6ezpYs5SBdGto'
+key = 'DEMO_KEY'
 version = '1.0.0'
 
 os.system('clear')
