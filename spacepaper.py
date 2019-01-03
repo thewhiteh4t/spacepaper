@@ -107,7 +107,7 @@ def rnd():
 		Month = random.randint(1,12)
 		Year = random.randint(1995,2019)
 		gen()
-
+		input(G + '[+]' + C + ' Press Enter to Continue...' + W)
 def default():
 	global Month, Year
 	while True:
