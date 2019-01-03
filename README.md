@@ -51,10 +51,13 @@ optional arguments:
 ```
 
 Without Arguments
+
 `python3 spacepaper.py`
 
 Get Images for a Specific Month and Year
+
 `python3 spacepaper.py -m 12 -y 2018`
 
 Get Images for a Random Month and Year
+
 `python3 spacepaper.py -r`
