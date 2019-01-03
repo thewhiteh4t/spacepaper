@@ -3,11 +3,13 @@
 import os
 import sys
 import time
+import signal
 import random
 import argparse
 import requests
 import datetime
 import calendar
+import threading
 import subprocess as subp
 
 R = '\033[31m' # red
@@ -15,9 +17,13 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m' # white
 
+i = ''
 key = ''
 sv = ''
-version = '1.0.0'
+url = ''
+arr = []
+threads = []
+version = '1.0.1'
 
 
 os.system('clear')
@@ -103,66 +109,78 @@ def rnd():
 	Year = 0
 	print (G + '[+]' + C + ' Random Mode...' + W)
 	while True:
-		time.sleep(1)
 		Month = random.randint(1,12)
 		Year = random.randint(1995,2019)
-		gen()
+		master(i)
 		input(G + '[+]' + C + ' Press Enter to Continue...' + W)
+
 def default():
 	global Month, Year
 	while True:
 		Month = int(input('\n' + G + '[+]' + C + ' Month : ' + W))
 		Year = int(input(G + '[+]' + C + ' Year  : ' + W))
 		print (G + '[+]' + C + ' Fetching Images from NASA APOD...' + W)
-		gen()
+		master(i)
 
 def mny():
 	global Month, Year
 	print (G + '[+]' + C + ' Fetching Images from NASA APOD...' + W)
-	gen()
+	master(i)
 	while True:
 		Month = int(input('\n' + G + '[+]' + C + ' Month : ' + W))
 		Year = int(input(G + '[+]' + C + ' Year  : ' + W))
 		print (G + '[+]' + C + ' Fetching Images from NASA APOD...' + W)
-		gen()
+		master(i)
 
-def gen():
-	global Year, Month, key, pool, thread
+def master(i):
+	global total, Month, Year, url, arr
 	total = calendar.monthrange(Year, Month)[1]
 	print (G + '[+]' + C + ' Month/Year : ' + W + str(Month) + '/' + str(Year))
-	with open ('website/js/spacepaper.js', 'w') as img:
-		img.write(''' document.write(' ''')
-		for i in range(1,total):
-			p = i/total * 100
-			p = round(p)
-			p = int(p)
-			print ('[{} %]'.format(p), end='\r') # loading...
-			d = str(Year) + '-' + str(Month) + '-' + str(i)
-			call = 'https://api.nasa.gov/planetary/apod?date={}&hd=True&api_key={}'.format(d, key)
-			r = requests.get(call, headers={"content-type":"text"})
-			if r.status_code == 200:
-				dump = r.json()
-
-				try:
-					url = dump['hdurl']
-					img.write('<div class="grid-item">')
-					img.write('<img src="{}"></div>'.format(url))
-				except KeyError:
-					try:
-						url = dump['url']
-					except KeyError:
-						print (G + '[!]' + C + ' Warning : ' + W + dump['msg'])
-						img.write(''' ') ''')
-						break
-						if 'youtube' in url:
-							img.write('<div class="grid-item">')
-							img.write('<iframe src="{}" width="250" frameborder="0" allow="gyroscope; picture-in-picture" allowfullscreen></iframe></div>'.format(url))
-
-			if i == total - 1 :
-				img.write(''' ') ''')
-
+	for i in range(1,total+1):
+		t = threading.Thread(target=gen, args=[i])
+		t.daemon = True
+		threads.append(t)
+	for t in threads:
+		try:
+			t.start()
+		except RuntimeError:
+			pass
+	for t in threads:
+		t.join()
+	img()
 	print (G + '[+]' + C + ' SpacePaper is Ready...Reload Page...' + W)
 
+def gen(i):
+	global Year, Month, key, arr, url
+	d = str(Year) + '-' + str(Month) + '-' + str(i)
+	call = 'https://api.nasa.gov/planetary/apod?date={}&hd=True&api_key={}'.format(d, key)
+	r = requests.get(call, headers={"content-type":"text"})
+	if r.status_code == 200:
+		dump = r.json()
+		try:
+			url = dump['hdurl']
+			arr.append(url)
+		except KeyError:
+			try:
+				url = dump['url']
+				arr.append(url)
+			except KeyError:
+				print (G + '[!]' + C + ' Warning : ' + W + dump['msg'])
+				exit()
+
+def img():
+	global url, arr
+	with open ('website/js/spacepaper.js', 'w') as imgfile:
+		imgfile.write(''' document.write(' ''')
+		for link in arr:
+			if 'youtube' in link:
+				imgfile.write('<div class="grid-item">')
+				imgfile.write('<iframe src="{}" width="250" frameborder="0" allow="gyroscope; picture-in-picture" allowfullscreen></iframe></div>'.format(link))
+			else:
+				imgfile.write('<div class="grid-item">')
+				imgfile.write('<img src="{}"></div>'.format(link))
+		imgfile.write(''' ') ''')
+		arr = []
 try:
 	banner()
 	updater()
@@ -170,4 +188,4 @@ try:
 	core()
 except KeyboardInterrupt:
 	print ('\n' + R + '[-]' + C + ' Keyboard Interrupt.' + W)
-	sv.kill()
+	os.kill(sv.pid, signal.SIGKILL)
