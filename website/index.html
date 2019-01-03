@@ -10,15 +10,19 @@
   <link rel="stylesheet" href="website/css/spacepaper.css">
 </head>
 
-<body>
+<body id="particle_background">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-  <script>$.backstretch("website/images/bg.jpg");</script>
-
+  <div id="particles-js"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'website/js/stars.json', function() {
+      console.log('callback - particles.js config loaded');
+    });
+  </script>
   <div class="container" id="hide">
     <div class="row mx-4 my-3">
       <div class="col">
@@ -39,7 +43,7 @@
           </div>
         </div>
       </div>
-
+    </div>
   <script>
     jQuery(window).on('load', function(){
       $('.grid').masonry({
@@ -51,6 +55,7 @@
       });
     });
   </script>
+  </div>
 
 </body>
 </html>
