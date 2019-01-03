@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/Termux-✔-red.svg?style=plastic">
 </p>
 
-![SpacePaper](https://i.imgur.com/6o46BSo.jpg)
+![SpacePaper](https://i.imgur.com/eUncuyD.png)
 
 ## NASA APOD - Astronomy Picture of the Day
 One of the most popular websites at NASA is the Astronomy Picture of the Day.
