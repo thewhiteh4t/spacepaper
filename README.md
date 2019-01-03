@@ -30,6 +30,8 @@ In documentation examples, the special DEMO_KEY api key is used. This API key ca
 * Hourly Limit: 30 requests per IP address per hour
 * Daily Limit: 50 requests per IP address per day
 
+If you want to use Demo Key, execute SpacePaper and enter `DEMO_KEY`, if you start getting errors after sometime that's because rate limit was exceeded.
+
 ## Registered key
 [Get your Key](https://api.nasa.gov/index.html#apply-for-an-api-key)
 
