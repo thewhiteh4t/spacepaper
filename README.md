@@ -21,7 +21,7 @@ APOD API allows us to retrieve images from June 1995 - Current Year.
 API Requests are handled by a python script and it generates a Javascript file which displays images on the frontend.
 
 ## Rate Limits
-When you first execute SpacePaper it will ask for an API Key, you have two options here :
+When you execute SpacePaper for the first time it will ask for an API Key, you have two options here :
 
 * Demo Key
 * Register for a Key
