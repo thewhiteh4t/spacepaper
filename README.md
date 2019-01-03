@@ -53,7 +53,7 @@ cd spacepaper
 chmod 777 install.sh
 ./install.sh
 ```
-
+![install](https://i.imgur.com/Vwci3Cv.png)
 ## Usage
 ```
 usage: spacepaper.py [-h] [-m MONTH] [-y YEAR] [-r]
