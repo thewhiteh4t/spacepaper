@@ -36,3 +36,25 @@ In documentation examples, the special DEMO_KEY api key is used. This API key ca
 * Hourly Limit: 1,000 requests per hour
 
 Exceeding these limits will lead to your API key being temporarily blocked from making further requests. The block will automatically be lifted by waiting an hour.
+
+## Usage
+```
+usage: spacepaper.py [-h] [-m MONTH] [-y YEAR] [-r]
+
+SpacePaper Provides High Quality Images from NASA APOD [ June 1995 Onwards ]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -m MONTH, --month MONTH
+  -y YEAR, --year YEAR
+  -r, --random
+```
+
+Without Arguments
+`python3 spacepaper.py`
+
+Get Images for a Specific Month and Year
+`python3 spacepaper.py -m 12 -y 2018`
+
+Get Images for a Random Month and Year
+`python3 spacepaper.py -r`
