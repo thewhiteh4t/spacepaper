@@ -39,6 +39,19 @@ If you want to use Demo Key, execute SpacePaper and enter `DEMO_KEY`, if you sta
 
 Exceeding these limits will lead to your API key being temporarily blocked from making further requests. The block will automatically be lifted by waiting an hour.
 
+## Install
+SpacePaper uses Python3 Standard Library Packages along with Requests and PHP In-built Server.
+If you already have the above you can skip this step...
+
+```
+Linux / Termux -->
+
+git clone https://github.com/thewhiteh4t/spacepaper.git
+cd spacepaper
+chmod 777 install.sh
+./install.sh
+```
+
 ## Usage
 ```
 usage: spacepaper.py [-h] [-m MONTH] [-y YEAR] [-r]
