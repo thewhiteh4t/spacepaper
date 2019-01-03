@@ -61,3 +61,9 @@ Get Images for a Specific Month and Year
 Get Images for a Random Month and Year
 
 `python3 spacepaper.py -r`
+
+## Tested on
+
+* Ubuntu 18.04
+* Kali Linux
+* Termux
