@@ -54,6 +54,7 @@ chmod 777 install.sh
 ./install.sh
 ```
 ![install](https://i.imgur.com/Vwci3Cv.png)
+
 ## Usage
 ```
 usage: spacepaper.py [-h] [-m MONTH] [-y YEAR] [-r]
@@ -78,6 +79,8 @@ Get Images for a Specific Month and Year
 Get Images for a Random Month and Year
 
 `python3 spacepaper.py -r`
+
+![usage](https://i.imgur.com/EVL8BK0.png)
 
 ## Tested on
 
