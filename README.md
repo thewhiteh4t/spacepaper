@@ -1,4 +1,4 @@
-<p align="center"><img src="https://imgur.com/9PzfA4r.png"></p>
+<p align="center"><img src="https://imgur.com/9PzfA4r.png" width="80%"></p>
 <h4 align="center">High Quality Images from NASA APOD</h4>
 
 <p align="center">
